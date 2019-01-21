@@ -1,0 +1,68 @@
+[user]
+    name = Dhiraj Goel
+[alias]
+    ci = commit
+    dif = diff
+    st = status
+    br = branch -v
+    lg = log --decorate --oneline --graph --all
+    log-pretty = log --graph --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an - %aE>%Creset' --abbrev-commit
+
+    # code-aware diff using diff-so-fancy
+    fdiff = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && \
+    git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
+
+    # word-aware diff
+    wdiff = diff --color-words
+    wshow = show --color-words
+    wwdiff = diff --color-words=[[:alnum:]_]+|[^[:space:]]
+    wwshow = show --color-words=[[:alnum:]_]+|[^[:space:]]
+    cdiff = diff --color-words=[^[:space:]]
+    cshow = show --color-words=[^[:space:]]
+
+    authors = shortlog --summary --numbered
+
+    # side-by-side diff
+    diffd = difftool -d
+
+    # re-pack etc.
+    optimize = "!f() { git reflog expire --expire=now --all && \
+                       git repack -A -d && \
+                       git gc --prune=now && \
+                       git gc --aggressive --prune=now; }; f"
+
+    # https://git.wiki.kernel.org/index.php/Aliases
+    gitkconflict = !gitk --left-right HEAD...MERGE_HEAD
+    new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+
+    # http://who-t.blogspot.com/2012/06/git-branch-info.html
+    branch-info = "!sh -c 'git branch --list --no-color | \
+    sed -e \"s/*/ /\" | \
+    while read branch; do \
+        git log -1 --format=format:\"%Cred$branch:%Cblue %s %Cgreen%h%Creset (%ar)\" $branch; \
+    done'"
+
+    # http://blog.wikichoon.com/2016/01/tips-for-querying-git-tags.html
+    tag-info = "!sh -c 'git for-each-ref --format=\"%(refname:short)\" refs/tags | \
+    while read tag; do \
+        git --no-pager log -1 --format=format:\"$tag %at\" $tag; echo; \
+    done | \
+    sort -k 2 | cut -f 1 --delimiter=\" \" | \
+    while read tag; do \
+        fmt=\"%Cred$tag:%Cblue %s %Cgreen%h%Creset (%ai)\"; \
+        git --no-pager log -1 --format=format:\"$fmt\" $tag; echo; \
+    done'"
+[core]
+    editor = vim
+[color]
+    ui = true
+[credential]
+    helper = cache
+[push]
+    default = simple
+[diff]
+    tool = meld
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true

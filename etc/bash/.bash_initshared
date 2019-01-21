@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This script is sourced both by .bash_profile and .xsessionrc and can
+# thus be used for initialization duties that need to be done when
+# logging in on a console, via ssh, or at the start of an X session.
+
+# editor
+if [ -x "$(which emacs)" ]; then
+    # start emacs daemon if not running
+    if [ $(ps aux | grep -c 'emacs --daemon') -eq 1 ]; then
+        echo "Start emacs server"
+        emacs --daemon &
+    fi
+    # set default editor
+    EDITOR="emacsclient -c"
+    VISUAL="$EDITOR"
+    CHANGESEDITOR="$EDITOR"
+fi
+
+export EDITOR VISUAL CHANGESEDITOR
