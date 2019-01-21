@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Credits:
+# Modified version of the original bash file Delcroip:
+# http://raspberrypi.stackexchange.com/questions/1909/play-divx-3-low-motion-too
+# Usage: ./toH264.sh <directory> [source_extension] [target_extension] [source_codec]
+# example: ./toH264.sh folder_with_videos avi mp4 msmpeg4
+
+# erase result file
+echo "Result File" > ToH264.result
+
+# get the folder to search
+fld="$1"
+
+# get the extension to look for if it exist, else look for "avi"
+if [[ $2=="" ]]; then
+    exti="avi"
+else
+    exti=$2
+fi
+
+# get the futur extension for if it exist, else set "mp4"
+if [[ $3=="" ]]; then
+    exto="mp4"
+else
+    exto=$3
+fi
+
+# get the codec to look for if it exist, else look for "msmpeg4"
+if [[ $4=="" ]]; then
+    cdc='msmpeg4'
+else
+    cdc=$4
+fi
+
+# exe the search and save the result in TpH264.tmp
+find $fld  -name "*.$exti" > ToH264.tmp
+
+# convert each result stored in the file ToH264.tmp if it use the specified
+# codec and if the output file doesn't exist
+while read line
+do
+    if avprobe -show_streams "$line" | grep $cdc
+    then
+        echo "$line"  >> ToH264.result
+        no | avconv -threads 2 -i "$line" -c:v libx264 -crf 20 -c:a copy "${line%.*}.$exto"
+    fi
+done < ToH264.tmp

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#set -e
+
+# encoding/decoding raw audio signal reduces network io by a factor of 10 from
+# ~700Kb/sec to ~70Kb/sec as reported by iftop
+# run 10 sec, and repeat
+while /bin/true; do
+    ssh babypi 'arecord -d 10 -D plughw:1,0 -f cd | oggenc - ' | oggdec - | aplay -f cd
+done
