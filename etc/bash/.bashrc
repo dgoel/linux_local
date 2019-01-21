@@ -128,4 +128,4 @@ export VISUAL="emacsclient -c"
 
 
 # source fzf if available
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/local/bin/fzf.bash ] && source ~/local/bin/fzf.bash

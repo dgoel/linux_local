@@ -39,12 +39,12 @@ looks like this:
             .vimrc
 ```
 
-You would then create a `etc` subdirectory and move all the files there:
+You would then create a `local/etc` subdirectory and move all the files there:
 
 ```bash
     /home/
          dgoel/
-            etc/
+            local/etc/
                 bash/
                     .bashrc
                     .bash_profile
@@ -58,8 +58,11 @@ You would then create a `etc` subdirectory and move all the files there:
 Then, perform the following commands:
 
 ```bash
-    $ cd ~/etc
-    $ stow bash
-    $ stow vim
+    $ cd ~/local/etc
+    $ stow -vv -t ${HOME} bash
+    $ stow -vv -t ${HOME} vim
+    $ stow -vv -t ${HOME} git
+    $ stow -vv -t ${HOME} terminator
+    $ stow -vv -t ${HOME} tmux
 ```
-This will create symbolic link from `etc` directory to the configuration files.
+This will create symbolic link from `local/etc` directory to the configuration files.
