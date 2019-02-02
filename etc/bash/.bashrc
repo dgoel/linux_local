@@ -126,6 +126,8 @@ export EDITOR=ec
 export EDITOR="emacsclient -c"
 export VISUAL="emacsclient -c"
 
+# User specific environment and startup programs
+export PATH=$PATH:$HOME/local/bin
 
 # source fzf if available
 [ -f ~/local/bin/fzf.bash ] && source ~/local/bin/fzf.bash
