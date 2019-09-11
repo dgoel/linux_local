@@ -3,7 +3,8 @@ Docker
 
 # Setup docker
 
-Follow the setup instructions on this page:x
+Follow the setup instructions on this page:
+
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
 # Configure
