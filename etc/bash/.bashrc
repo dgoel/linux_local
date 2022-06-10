@@ -21,9 +21,9 @@ esac
 
 # User specific aliases and functions
 
-# don't put duplicate lines in the history. See bash(1) for more options
-# ... or force ignoredups and ignorespace
-HISTCONTROL=ignoredups:ignorespace
+# Don't put duplicate lines in the history. ignoreboth is a shorthand for
+# ignoredups and ignorespace. See bash(1) for more options
+HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -31,6 +31,12 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+
+# append and reload "new" items from the history after each command
+PROMPT_COMMAND="history -a; history -n"
+
+# ignore these
+HISTIGNORE='ls:ll:cd:pwd:bg:fg:history'
 
 # smarter history search
 bind '"\e[A": history-search-backward'
@@ -60,38 +66,13 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-#if [ "$color_prompt" = yes ]; then
-#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\W\[\033[01;37m\]\$ '
-#else
-#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-#fi
-
-# Copied from the following link:
-# http://stackoverflow.com/questions/3497885/code-challenge-bash-prompt-path-shortener
-_dir_chomp () {
-    local p=${1/#$HOME/\~} b s
-    s=${#p}
-    while [[ $p != "${p//\/}" ]]&&(($s>$2))
-    do
-        p=${p#/}
-        [[ $p =~ \.?. ]]
-        b=$b/${BASH_REMATCH[0]}
-        p=${p#*/}
-        ((s=${#b}+${#p}))
-    done
-    echo ${b/\/~/\~}${b+/}$p
-}
-
 if [ "$color_prompt" = yes ]; then
     if [ -f /etc/bash_completion.d/git-prompt ]; then
         . /etc/bash_completion.d/git-prompt
-        PS1='\[\033[01;32m\]$(
-         _dir_chomp "$(pwd)" 1  0)\[\033[01;37m\]$(__git_ps1 "(%s)")\[\033[01;34m\]\$\[\033[00m\] '
+        PS1='\n\[\e[033;32m\]\u@\h \[\033[01;34m\]\w\[\033[01;30m\]$(__git_ps1 " (%s)")\n\[\033[01;30m\]$\[\033[00m\] '
     else
-        PS1='\[\033[01;32m\]$(
-         _dir_chomp "$(pwd)" 1  0)\[\033[01;37m\]$()\[\033[01;34m\]\$\[\033[00m\] '
+        PS1='\n\[\e[033;32m\]\u@\h \[\033[01;34m\]\w\[\033[01;30m\]\n\[\033[01;30m\]$\[\033[00m\] '
     fi
-#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\W$(__git_ps1 " (%s)")\[\033[00;37m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\W\$ '
 fi
