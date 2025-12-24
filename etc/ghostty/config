@@ -1,0 +1,8 @@
+# theme = 0x96f
+theme = Adwaita Dark
+background-opacity = 0.95
+cursor-style = bar
+font-family = "Droid Sans Mono Dotted"
+font-size = 11
+
+keybind = ctrl+tab=goto_split:next
