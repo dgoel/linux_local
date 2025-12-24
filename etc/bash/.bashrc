@@ -47,7 +47,7 @@ bind '"\e[B": history-search-forward'
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    xterm-color|*-256color|*ghostty) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -86,6 +86,17 @@ xterm*|rxvt*)
 *)
     ;;
 esac
+
+case "$TERM" in
+    xterm-color|*-256color|*ghostty)
+        export GIT_PS1_SHOWCOLORHINTS=1
+	    PRE='\[\e[033;32m\]\u@\h \[\033[00m\]\[\033[01;34m\]\w\[\033[00m\]'
+	    ;;
+    *)
+        PRE='\u@\h:\w'
+        ;;
+esac
+export PROMPT_COMMAND="__git_ps1 '"'${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV")) }'"$PRE' '\n$ '"
 
 # enable bash completion in interactive shells
 if ! shopt -oq posix; then
