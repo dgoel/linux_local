@@ -9,13 +9,13 @@ if [ $# == 0 ]; then
    exit
 fi
 
-if [ -d "$1" ]; then
-    echo "Path $1 exits."
-else
-    echo "Error: path $1 does not exit. Quitting."
-    exit
-fi
+# if [ -d "$1" ]; then
+#     echo "Path $1 exits."
+# else
+#     echo "Error: path $1 does not exit. Quitting."
+#     exit
+# fi
 
 # rsync -avsrh -i --delete $HOME/Music/ "$1"
 # No need to preserve permission, owner and group
-rsync -rcvh --protect-args --stats --itemize-changes --delete $HOME/Music/ "$1"
+rsync -rcvhP --protect-args --stats --itemize-changes --delete $HOME/Music/ "$1"

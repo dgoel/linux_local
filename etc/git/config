@@ -1,5 +1,6 @@
 [user]
 	name = Dhiraj Goel
+	email = dhiraj.goel@gmail.com
 [alias]
 	ci = commit
 	dif = diff

@@ -113,13 +113,14 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# setup editors
+# setup editors: tell emacsclient to start emacs server if not already running
 export EDITOR=ec
-export EDITOR="emacsclient -c"
-export VISUAL="emacsclient -c"
+export VISUAL=et
 
 # User specific environment and startup programs
-export PATH=$PATH:$HOME/local/bin
+export PATH=$PATH:$HOME/local/bin:$HOME/.local/bin
 
 # source fzf if available
 [ -f ~/local/bin/fzf.bash ] && source ~/local/bin/fzf.bash
+
+## TODO: source bash completion from bin/
